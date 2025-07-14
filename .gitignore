@@ -1,0 +1,61 @@
+HELP.md
+target/
+.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+.sts4-cache
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### Dependências ###
+# Maven
+.mvn/
+mvnw.cmd
+mvnw
+/dependency-reduced-pom.xml
+
+### Logs ###
+*.log
+logs/
+!logs/.gitkeep  # Permite manter a pasta vazia
+
+### Arquivos de ambiente local ###
+*.properties
+*.yml
+!application*.yml
+!application*.properties
+!bootstrap*.yml
+!bootstrap*.properties
+
+# Arquivos de configuração específicos
+/config/application-*.yml
+/config/application-*.properties
+
+### Testes e relatórios ###
+/test-output/
+/reports/
+/test-results/
+*.csv
+*.rdb
+
+### Outros ###
+# Arquivos de credenciais ou sensíveis
+**/.env
+**/secrets.yml
+**/credentials.json
+
+# Arquivos temporários
+*.tmp
+*.bak
