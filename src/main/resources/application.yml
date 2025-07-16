@@ -9,10 +9,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update   # Atualiza o schema sem apagar dados existentes
-    show-sql: true                  # exibição no console de todas as instruções SQL
+    show-sql: true                  # exibiï¿½ï¿½o no console de todas as instruï¿½ï¿½es SQL
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.PostgreSQLDialect
+  security:
+    oauth2:
+      resourceserver:
+        jwt:
+          issuer-uri: http://localhost:8443/realms/event-ticket-platform
 
 
