@@ -33,6 +33,8 @@ public class TicketType extends BaseEntity {
     @Column(name = "total_available")
     private Integer totalAvailable;
 
+    private String description;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "event_id")
     private Event event;
@@ -46,7 +48,7 @@ public class TicketType extends BaseEntity {
         if (!super.equals(o)) return false;
 
         TicketType that = (TicketType) o;
-        return Objects.equals(name, that.name) && Objects.equals(price, that.price) && Objects.equals(totalAvailable, that.totalAvailable);
+        return Objects.equals(name, that.name) && Objects.equals(price, that.price) && Objects.equals(totalAvailable, that.totalAvailable) && Objects.equals(description, that.description);
     }
 
     @Override
@@ -55,6 +57,7 @@ public class TicketType extends BaseEntity {
         result = 31 * result + Objects.hashCode(name);
         result = 31 * result + Objects.hashCode(price);
         result = 31 * result + Objects.hashCode(totalAvailable);
+        result = 31 * result + Objects.hashCode(description);
         return result;
     }
 }
