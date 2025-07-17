@@ -12,6 +12,7 @@ import org.springframework.data.annotation.LastModifiedDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -54,5 +55,23 @@ public class Event extends BaseEntity {
     @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
     private List<TicketType> ticketTypes = new ArrayList<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
 
+        Event event = (Event) o;
+        return Objects.equals(name, event.name) && Objects.equals(startTime, event.startTime) && Objects.equals(endTime, event.endTime) && Objects.equals(venue, event.venue) && Objects.equals(salesStart, event.salesStart) && Objects.equals(salesEnd, event.salesEnd) && status == event.status;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = Objects.hashCode(name);
+        result = 31 * result + Objects.hashCode(startTime);
+        result = 31 * result + Objects.hashCode(endTime);
+        result = 31 * result + Objects.hashCode(venue);
+        result = 31 * result + Objects.hashCode(salesStart);
+        result = 31 * result + Objects.hashCode(salesEnd);
+        result = 31 * result + Objects.hashCode(status);
+        return result;
+    }
 }

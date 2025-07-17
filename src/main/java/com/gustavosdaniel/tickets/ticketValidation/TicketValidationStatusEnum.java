@@ -1,4 +1,4 @@
-package com.gustavosdaniel.tickets.ticket;
+package com.gustavosdaniel.tickets.ticketValidation;
 
 public enum TicketValidationStatusEnum {
 

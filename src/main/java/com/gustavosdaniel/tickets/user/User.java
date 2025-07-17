@@ -6,13 +6,10 @@ import com.gustavosdaniel.tickets.ticket.Ticket;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -48,5 +45,23 @@ public class User extends BaseEntity {
     )
     private List<Event> staffingEvents = new ArrayList<>();
 
+    @OneToMany(mappedBy = "purchaser")
+    private List<Ticket> tickets = new ArrayList<>();
 
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+
+        User user = (User) o;
+        return Objects.equals(fullName, user.fullName) && Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = super.hashCode();
+        result = 31 * result + Objects.hashCode(fullName);
+        result = 31 * result + Objects.hashCode(email);
+        return result;
+    }
 }
