@@ -6,31 +6,29 @@ import com.gustavosdaniel.tickets.ticketType.CreateTicketTypeResponseDTO;
 import com.gustavosdaniel.tickets.ticketType.TicketType;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
 public class EventMapper {
 
-    public Event fromCreateRequestDTO(CreateEventRequestDTO createEventRequestDTO) {
+    public CreateEventRequest fromCreateRequestDTO(CreateEventRequestDTO createEventRequestDTO) {
 
-        return Event.builder()
+        return CreateEventRequest.builder()
                 .name(createEventRequestDTO.getName())
-                .startTime(createEventRequestDTO.getStart())
-                .endTime(createEventRequestDTO.getEnd())
+                .start(createEventRequestDTO.getStart())
+                .end(createEventRequestDTO.getEnd())
                 .venue(createEventRequestDTO.getVenue())
                 .salesStart(createEventRequestDTO.getSalesStart())
                 .salesEnd(createEventRequestDTO.getSalesEnd())
                 .status(createEventRequestDTO.getStatus())
-                .ticketTypes(mapTicketTypes(createEventRequestDTO.getTicketsTypes()))
+                .ticketsTypes(mapTicketTypes(createEventRequestDTO.getTicketsTypes()))
                 .build();
     }
 
 
-    private TicketType mapTicketTypes(CreateTicketTypeRequestDTO createTicketTypeRequestDTO) {
-        return TicketType.builder()
+    private CreateTicketTypeRequest mapTicketTypes(CreateTicketTypeRequestDTO createTicketTypeRequestDTO) {
+        return CreateTicketTypeRequest.builder()
                 .name(createTicketTypeRequestDTO.getName())
                 .description(createTicketTypeRequestDTO.getDescription())
                 .price(createTicketTypeRequestDTO.getPrice())
@@ -40,7 +38,7 @@ public class EventMapper {
 
 
     // Transforma uma lista de DTOs em uma lista de entidades TicketType
-    private List<TicketType> mapTicketTypes(List<CreateTicketTypeRequestDTO> ticketsTypesRequestDTO) {
+    private List<CreateTicketTypeRequest> mapTicketTypes(List<CreateTicketTypeRequestDTO> ticketsTypesRequestDTO) {
         return ticketsTypesRequestDTO.stream()
                 .map(this::mapTicketTypes)
                 .collect(Collectors.toList());

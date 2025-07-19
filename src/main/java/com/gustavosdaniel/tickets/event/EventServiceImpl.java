@@ -20,13 +20,12 @@ public class EventServiceImpl implements EventService {
     private final UserRepository userRepository;
 
     @Override
-    public final Event createEvent(UUID organizedId, CreateEventRequest createEventRequest) {
-
+    public Event createEvent(UUID organizedId, CreateEventRequest CreateEventRequest) {
         User organized = userRepository.findById(organizedId)
                 .orElseThrow(() -> new UserNotFoundException(
-                            String.format("User with ID '%s' not found", organizedId )));
+                        String.format("User with ID '%s' not found", organizedId )));
 
-        List<TicketType> ticketTypesToCreate = createEventRequest.getTicketsTypes().stream()
+        List<TicketType> ticketTypesToCreate = CreateEventRequest.getTicketsTypes().stream()
                 .map(requestTicketType -> {
 
                     if (requestTicketType.getPrice().compareTo(BigDecimal.ZERO) < 0) {
@@ -57,6 +56,5 @@ public class EventServiceImpl implements EventService {
         eventToCreate.setTicketTypes(ticketTypesToCreate);
 
         return eventRepository.save(eventToCreate);
-
     }
 }
