@@ -30,10 +30,10 @@ public class EventServiceImpl implements EventService {
                 .map(requestTicketType -> {
 
                     if (requestTicketType.getPrice().compareTo(BigDecimal.ZERO) < 0) {
-                        throw new TicketNotNegativeException(
-                                "O preço do tipo de ingresso '"
+                        throw new InvalidPriceException(
+                                "O preço do ingresso '"
                                         + requestTicketType.getName()
-                                        + "' não pode ser menor que zero."
+                                        + " não pode ser menor que zero."
                         );
                     }
                     return TicketType.builder()
