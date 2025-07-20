@@ -17,6 +17,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@Table(name = "qr_codes")
 public class QrCode extends BaseEntity {
 
     @Column(nullable = false)

@@ -31,7 +31,7 @@ public class GlobalExceptionHandler {
     }
 
     //Trata erros de validação de argumentos em métodos
-    @ExceptionHandler(ConstraintViolationException.class)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ErrorDTO> handleMethodArgumentNotValidException(
             MethodArgumentNotValidException ex
     ){

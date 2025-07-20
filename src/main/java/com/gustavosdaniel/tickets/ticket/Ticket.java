@@ -22,6 +22,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@Table(name = "tickets")
 public class Ticket extends BaseEntity {
 
     @Column(nullable = false)

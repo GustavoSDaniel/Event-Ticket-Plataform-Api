@@ -17,6 +17,7 @@ import java.util.Objects;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
+@Table(name = "ticket_validations")
 public class TicketValidation extends BaseEntity {
 
     @Column(nullable = false)

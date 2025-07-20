@@ -8,7 +8,7 @@ spring:
     driver-class-name: org.postgresql.Driver
   jpa:
     hibernate:
-      ddl-auto: update   # Atualiza o schema sem apagar dados existentes
+      ddl-auto: validate   # Atualiza o schema sem apagar dados existentes
     show-sql: true                  # exibi��o no console de todas as instru��es SQL
     properties:
       hibernate:

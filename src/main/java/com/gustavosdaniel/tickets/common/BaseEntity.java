@@ -25,17 +25,15 @@ public class BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false) // updatable = false para que o id não seja mudado
-    private UUID id;
-
-
+    protected UUID id;
 
     @CreatedDate
     @Column(nullable = false, updatable = false, name = "created_at")
-    private LocalDateTime createdAt;
+    protected LocalDateTime createdAt;
 
     @LastModifiedDate
     @Column(name = "update_at", nullable = false)
-    private LocalDateTime updatedAt;
+    protected LocalDateTime updatedAt;
 
     @Override
     public boolean equals(Object o) {

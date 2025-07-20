@@ -20,13 +20,16 @@ import java.util.Objects;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
+@Table(name = "events")
 public class Event extends BaseEntity {
 
     @Column(nullable = false)
     private String name;
 
+    @Column(name = "event_start")
     private LocalDateTime startTime;
 
+    @Column(name = "event_end")
     private LocalDateTime endTime;
 
     @Column(nullable = false)
