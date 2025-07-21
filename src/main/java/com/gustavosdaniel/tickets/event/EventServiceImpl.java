@@ -70,6 +70,10 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new UserNotFoundException(
                         String.format("User with ID '%s' not found", organizedId )));
 
+        if (eventRepository.findByOrganizerId(organizedId, pageable).isEmpty()) {
+            System.out.println("No events found");
+        }
+
         return eventRepository.findByOrganizerId(organizedId, pageable);
     }
 }
