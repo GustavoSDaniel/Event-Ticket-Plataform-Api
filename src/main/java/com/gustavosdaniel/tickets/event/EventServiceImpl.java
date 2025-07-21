@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -34,7 +35,7 @@ public class EventServiceImpl implements EventService {
 
                     if (requestTicketType.getPrice().compareTo(BigDecimal.ZERO) < 0) {
                         throw new InvalidPriceException(
-                                "O preço do ingresso '"
+                                "O preço do ingresso "
                                         + requestTicketType.getName()
                                         + " não pode ser menor que zero."
                         );
@@ -71,9 +72,16 @@ public class EventServiceImpl implements EventService {
                         String.format("User with ID '%s' not found", organizedId )));
 
         if (eventRepository.findByOrganizerId(organizedId, pageable).isEmpty()) {
-            System.out.println("No events found");
+
+            throw new EventNotFoundException("O organizador não tem eventos em seu nome" );
         }
 
         return eventRepository.findByOrganizerId(organizedId, pageable);
+    }
+
+    @Override
+    public Optional<Event> getEventForOrganizer(UUID organizedId, UUID id) { // Optional = Melhor prática para indicar que o resultado pode não existir
+
+        return eventRepository.findByIdAndOrganizerId(id, organizedId);
     }
 }
