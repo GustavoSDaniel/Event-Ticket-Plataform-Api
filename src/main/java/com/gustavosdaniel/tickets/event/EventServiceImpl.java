@@ -5,6 +5,8 @@ import com.gustavosdaniel.tickets.user.User;
 import com.gustavosdaniel.tickets.user.UserNotFoundException;
 import com.gustavosdaniel.tickets.user.UserRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -25,6 +27,8 @@ public class EventServiceImpl implements EventService {
                 .orElseThrow(() -> new UserNotFoundException(
                         String.format("User with ID '%s' not found", organizedId )));
 
+        Event eventToCreate = new Event();
+
         List<TicketType> ticketTypesToCreate = CreateEventRequest.getTicketsTypes().stream()
                 .map(requestTicketType -> {
 
@@ -40,11 +44,12 @@ public class EventServiceImpl implements EventService {
                             .price(requestTicketType.getPrice())
                             .description(requestTicketType.getDescription())
                             .totalAvailable(requestTicketType.getTotalAvailable())
+                            .event(eventToCreate)
                             .build();
                 })
                 .collect(Collectors.toList());
 
-        Event eventToCreate = new Event();
+
         eventToCreate.setName(eventToCreate.getName());
         eventToCreate.setStartTime(eventToCreate.getStartTime());
         eventToCreate.setEndTime(eventToCreate.getEndTime());
@@ -56,5 +61,15 @@ public class EventServiceImpl implements EventService {
         eventToCreate.setTicketTypes(ticketTypesToCreate);
 
         return eventRepository.save(eventToCreate);
+    }
+
+    @Override
+    public Page<Event> listEventsForOganizer(UUID organizedId, Pageable pageable) {
+
+        userRepository.findById(organizedId)
+                .orElseThrow(() -> new UserNotFoundException(
+                        String.format("User with ID '%s' not found", organizedId )));
+
+        return eventRepository.findByOrganizerId(organizedId, pageable);
     }
 }
