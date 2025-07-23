@@ -1,7 +1,7 @@
 package com.gustavosdaniel.tickets.event;
 
-import com.gustavosdaniel.tickets.ticketType.CreateTicketTypeRequest;
 import com.gustavosdaniel.tickets.ticketType.CreateTicketTypeRequestDTO;
+import com.gustavosdaniel.tickets.ticketType.UpdateTicketTypeRequestDTO;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
@@ -14,11 +14,15 @@ import lombok.NoArgsConstructor;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CreateEventRequestDTO {
+public class UpdateEventRequestDTO {
+
+    @NotNull(message = "O campo event é obrigatório")
+    private UUID id;
 
     @NotBlank(message = "Campo nome é Obrigatório")
     private String name;
@@ -47,5 +51,5 @@ public class CreateEventRequestDTO {
 
     @NotEmpty(message = "Pelo menos 1 tipo de ingresso é necessário")
     @Valid
-    private List<CreateTicketTypeRequestDTO> ticketsTypes = new ArrayList<>();
+    private List<UpdateTicketTypeRequestDTO> ticketsTypes = new ArrayList<>();
 }

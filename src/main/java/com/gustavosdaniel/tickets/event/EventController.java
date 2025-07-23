@@ -65,4 +65,23 @@ public class EventController {
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
+
+    @PutMapping(path = "/{eventId}")
+    public ResponseEntity<UpdateEventResponseDTO> updateEvent(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID eventId,
+            @Valid @RequestBody UpdateEventRequestDTO updateEventRequestDTO
+    ) {
+        UpdateEventRequest updateEventRequest = eventMapStruct.toUpdateEventRequestDTO(updateEventRequestDTO);
+
+        UUID userId = parseUserId(jwt);
+
+        Event updateEvent = eventService.updateEventForOrganizer(
+                userId, eventId, updateEventRequest
+        );
+
+        UpdateEventResponseDTO updateEventResponseDTO = eventMapStruct.toUpdateEventResponseDTO(updateEvent);
+
+        return  ResponseEntity.ok(updateEventResponseDTO);
+    }
 }

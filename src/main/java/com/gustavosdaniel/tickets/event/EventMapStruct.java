@@ -1,8 +1,6 @@
 package com.gustavosdaniel.tickets.event;
 
-import com.gustavosdaniel.tickets.ticketType.GetEventTicketTypesResponseDTO;
-import com.gustavosdaniel.tickets.ticketType.ListEventTicketTypeResponseDTO;
-import com.gustavosdaniel.tickets.ticketType.TicketType;
+import com.gustavosdaniel.tickets.ticketType.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.ReportingPolicy;
 
@@ -10,9 +8,20 @@ import org.mapstruct.ReportingPolicy;
 public interface EventMapStruct {
 
     ListEventTicketTypeResponseDTO toListEventTicketTypeResponseDTO(TicketType ticketType);
+
     ListEventResponseDTO toListEventResponseDTO(Event event);
 
     GetEventDetailsResponseDTO toGetEventDetailsResponseDTO(Event event); // Converte o objeto Event para GetEventDetailsResponseDTO
 
     GetEventTicketTypesResponseDTO toGetEventTicketTypesResponseDTO(TicketType ticketType);
+
+    UpdateTicketTypeRequest toUpdateTicketTypeRequestDTO(UpdateTicketTypeRequestDTO updateTicketTypeRequestDTO);
+
+    UpdateEventRequest toUpdateEventRequestDTO(UpdateEventRequestDTO updateEventRequestDTO);
+
+    UpdateTicketTypeResponseDTO toUpdateTicketTypeResponseDTO(TicketType ticketType);
+
+    UpdateEventResponseDTO toUpdateEventResponseDTO(Event event);
+
+
 }
