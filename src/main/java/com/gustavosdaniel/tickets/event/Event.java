@@ -55,7 +55,7 @@ public class Event extends BaseEntity {
     @ManyToMany(mappedBy = "staffingEvents")
     private List<User> staff = new ArrayList<>();
 
-    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "event", cascade = CascadeType.ALL, orphanRemoval = true) // orphanRemoval = true caso eu tira esse tickettype ele sera excluido do banco
     private List<TicketType> ticketTypes = new ArrayList<>();
 
     @Override

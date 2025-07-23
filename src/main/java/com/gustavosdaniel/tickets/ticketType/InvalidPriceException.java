@@ -1,4 +1,4 @@
-package com.gustavosdaniel.tickets.event;
+package com.gustavosdaniel.tickets.ticketType;
 
 import com.gustavosdaniel.tickets.common.EventTicketException;
 

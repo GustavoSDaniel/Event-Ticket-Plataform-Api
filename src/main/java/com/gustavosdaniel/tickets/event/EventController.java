@@ -50,6 +50,19 @@ public class EventController {
                 events.map(eventMapStruct::toListEventResponseDTO)  // Converte cada Event para ListEventResponseDTO usando MapStruct
         );
 
+    }
 
+    @GetMapping(path = "/{eventId}")
+    public ResponseEntity<GetEventDetailsResponseDTO> getEvent(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID eventId
+
+    ) {
+        UUID userId = parseUserId(jwt);
+
+        return eventService.getEventForOrganizer(userId, eventId)
+                .map(eventMapStruct::toGetEventDetailsResponseDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 }

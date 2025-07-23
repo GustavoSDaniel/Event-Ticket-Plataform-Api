@@ -1,8 +1,10 @@
-package com.gustavosdaniel.tickets.event;
+package com.gustavosdaniel.tickets.ticketType;
+
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.experimental.SuperBuilder;
 
 import java.math.BigDecimal;
 import java.util.UUID;
@@ -10,11 +12,12 @@ import java.util.UUID;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ListEventTicketTypeResponseDTO {
+@SuperBuilder
+public class UpdateTicketTypeRequest {
 
     private UUID id;
     private String name;
     private BigDecimal price;
-    private String description;
     private Integer totalAvailable;
+    private String description;
 }

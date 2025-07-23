@@ -1,5 +1,9 @@
 package com.gustavosdaniel.tickets.common;
 
+import com.gustavosdaniel.tickets.event.EventNotFoundException;
+import com.gustavosdaniel.tickets.event.EventUpdateNotFoundException;
+import com.gustavosdaniel.tickets.ticketType.InvalidPriceException;
+import com.gustavosdaniel.tickets.ticketType.TicketTypeNotFoundException;
 import com.gustavosdaniel.tickets.user.UserNotFoundException;
 import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +21,55 @@ import java.util.List;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(InvalidPriceException.class)
+    public ResponseEntity<ErrorDTO> handleInvalidPriceException(InvalidPriceException e) {
+
+        log.error("Caught InvalidPriceException", e);
+
+        ErrorDTO errorDTO = new ErrorDTO();
+
+        errorDTO.setError("Price not valid");
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(EventUpdateNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleEventUpdateNotFoundException(EventUpdateNotFoundException e) {
+
+        log.error("Caught EventUpdateNotFoundException", e);
+
+        ErrorDTO errorDTO = new ErrorDTO();
+
+        errorDTO.setError("Unable to update event");
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(TicketTypeNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleTicketTypeNotFoundException(TicketTypeNotFoundException e) {
+
+        log.error("Caught TicketTypeNotFoundException", e);
+
+        ErrorDTO errorDTO = new ErrorDTO();
+
+        errorDTO.setError("Ticket Type not found");
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+    }
+
+
+    @ExceptionHandler(EventNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleEventNotFoundException(EventNotFoundException e) {
+
+        log.error("Caught EventNotFoundException", e);
+
+        ErrorDTO errorDTO = new ErrorDTO();
+
+        errorDTO.setError("Event not found");
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+    }
 
     @ExceptionHandler(UserNotFoundException.class)
     public ResponseEntity<ErrorDTO> handleUserNotFoundException(UserNotFoundException e) {
