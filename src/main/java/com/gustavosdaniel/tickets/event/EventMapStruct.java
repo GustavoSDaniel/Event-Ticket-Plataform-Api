@@ -23,5 +23,7 @@ public interface EventMapStruct {
 
     UpdateEventResponseDTO toUpdateEventResponseDTO(Event event);
 
+    ListPublishedEventResponseDTO toListPublishedEventResponseDTO(Event event);
+
 
 }

@@ -173,8 +173,11 @@ public class EventServiceImpl implements EventService {
 
         getEventForOrganizer(organizedId, id).ifPresent(eventRepository::delete)    ;
 
+    }
 
-
+    @Override
+    public Page<Event> listPublishedEvents(Pageable pageable) {
+       return eventRepository.findByStatus(EventStatusEnum.PUBLISHED, pageable);
     }
 
 
