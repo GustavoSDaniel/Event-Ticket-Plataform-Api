@@ -1,8 +1,10 @@
 package com.gustavosdaniel.tickets.config;
 
 import com.gustavosdaniel.tickets.user.UserProvisioningFilter;
+import org.springframework.boot.web.servlet.filter.OrderedHiddenHttpMethodFilter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -20,7 +22,10 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizeRequests ->
 
-                        authorizeRequests.anyRequest().authenticated()) // Todas as requisições exigem autenticação
+                        authorizeRequests
+                                .requestMatchers(HttpMethod.GET,"/api/v1/published-events").permitAll() //Indica que este endpoint é público, acessível por qualquer pessoa, sem necessidade de login ou permissões específicas.
+
+                                .anyRequest().authenticated()) // Todas as requisições exigem autenticação (usado para o organizador)
                 .csrf(csrf -> csrf.disable()) // Desabilita CSRF porque a API é stateless e usa JWT
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Define a aplicação como stateless não mantém sessões no servidor
