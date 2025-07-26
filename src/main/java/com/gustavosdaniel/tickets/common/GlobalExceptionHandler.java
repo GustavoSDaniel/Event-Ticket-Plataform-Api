@@ -3,6 +3,8 @@ package com.gustavosdaniel.tickets.common;
 import com.gustavosdaniel.tickets.event.EventNotFoundException;
 import com.gustavosdaniel.tickets.event.EventUpdateNotFoundException;
 import com.gustavosdaniel.tickets.qrcode.QrCodeGenerationException;
+import com.gustavosdaniel.tickets.qrcode.QrCodeNotFoundException;
+import com.gustavosdaniel.tickets.ticket.TicketsSoldOutFoundException;
 import com.gustavosdaniel.tickets.ticketType.InvalidPriceException;
 import com.gustavosdaniel.tickets.ticketType.TicketTypeNotFoundException;
 import com.gustavosdaniel.tickets.user.UserNotFoundException;
@@ -22,6 +24,30 @@ import java.util.List;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(TicketsSoldOutFoundException.class)
+    public ResponseEntity<ErrorDTO> handleTicketsSoldOutFoundException(TicketsSoldOutFoundException e) {
+
+        log.error("Caught TicketsSoldOutFoundException", e);
+
+        ErrorDTO errorDTO = new ErrorDTO();
+
+        errorDTO.setError("Tickets are Sold Out for this ticket type");
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(QrCodeNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleQrCodeNotFoundException(QrCodeNotFoundException e) {
+
+        log.error("Caught QrCodeNotFoundException", e);
+
+        ErrorDTO errorDTO = new ErrorDTO();
+
+        errorDTO.setError("QrCode not found");
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(QrCodeGenerationException.class)
     public ResponseEntity<ErrorDTO> handleInvaQrCodeGenerationException(QrCodeGenerationException e) {
