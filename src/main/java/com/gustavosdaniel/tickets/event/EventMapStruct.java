@@ -25,5 +25,9 @@ public interface EventMapStruct {
 
     ListPublishedEventResponseDTO toListPublishedEventResponseDTO(Event event);
 
+    GetPublishedEventDetailsResponseDTO toGetPublishedEventDetailsResponseDTO(Event event);
+
+    GetPublishedEventTicketTypesResponseDTO  toGetPublishedEventTicketTypesResponseDTO(TicketType ticketType);
+
 
 }

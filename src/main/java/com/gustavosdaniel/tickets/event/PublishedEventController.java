@@ -4,10 +4,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Optional;
+import java.util.UUID;
 
 @RequestMapping(path = "/api/v1/published-events")
 @RestController
@@ -34,5 +34,16 @@ public class PublishedEventController {
         return ResponseEntity.ok(events.map(eventMapStruct ::toListPublishedEventResponseDTO));
 
     }
+
+    @GetMapping(path = "/{eventId}")
+    public ResponseEntity<GetPublishedEventDetailsResponseDTO> getPublishedEventDetails(
+            @PathVariable UUID eventId
+    ){
+        return eventService.getEventPublished(eventId)
+                .map(eventMapStruct ::toGetPublishedEventDetailsResponseDTO)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
 
 }
