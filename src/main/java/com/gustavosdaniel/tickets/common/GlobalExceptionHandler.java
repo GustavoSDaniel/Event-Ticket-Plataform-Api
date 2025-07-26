@@ -2,6 +2,7 @@ package com.gustavosdaniel.tickets.common;
 
 import com.gustavosdaniel.tickets.event.EventNotFoundException;
 import com.gustavosdaniel.tickets.event.EventUpdateNotFoundException;
+import com.gustavosdaniel.tickets.qrcode.QrCodeGenerationException;
 import com.gustavosdaniel.tickets.ticketType.InvalidPriceException;
 import com.gustavosdaniel.tickets.ticketType.TicketTypeNotFoundException;
 import com.gustavosdaniel.tickets.user.UserNotFoundException;
@@ -21,6 +22,18 @@ import java.util.List;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(QrCodeGenerationException.class)
+    public ResponseEntity<ErrorDTO> handleInvaQrCodeGenerationException(QrCodeGenerationException e) {
+
+        log.error("Caught QrCodeGenerationException", e);
+
+        ErrorDTO errorDTO = new ErrorDTO();
+
+        errorDTO.setError("Unable to generate QR Code");
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(InvalidPriceException.class)
     public ResponseEntity<ErrorDTO> handleInvalidPriceException(InvalidPriceException e) {

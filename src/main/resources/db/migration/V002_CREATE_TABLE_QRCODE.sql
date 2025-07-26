@@ -9,4 +9,8 @@ CREATE TABLE qr_codes (
     -- Foreign Key
                           CONSTRAINT fk_qr_code_ticket FOREIGN KEY (ticket_id)
                               REFERENCES tickets(id) ON DELETE CASCADE
+
+                              ALTER TABLE qr_codes
+                              ALTER COLUMN value TYPE TEXT;
 );
+
