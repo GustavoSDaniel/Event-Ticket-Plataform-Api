@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
 
+import static com.gustavosdaniel.tickets.common.JwtUtil.parseUserId;
+
 @RestController
 @RequestMapping(path = "/api/v1/events")
 @RequiredArgsConstructor
@@ -21,9 +23,6 @@ public class EventController {
     private final EventMapStruct eventMapStruct;
     private final EventMapper eventMapper;
 
-    private UUID parseUserId(Jwt jwt) {
-        return UUID.fromString(jwt.getSubject());
-    }
 
     @PostMapping
     public ResponseEntity<CreateEventResponseDTO> createEvent(
