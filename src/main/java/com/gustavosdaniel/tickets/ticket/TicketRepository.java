@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Repository
@@ -19,6 +20,8 @@ public interface TicketRepository extends JpaRepository<Ticket, UUID> {
             SELECT t FROM Ticket t WHERE t.purchaser.id = :purchaserId
         """)
     Page<Ticket> findByPurchaserId(@Param("purchaserId") UUID purchaserId, Pageable pageable);
+
+    Optional<Ticket> findByIdAndPurchaserId(UUID id, UUID purchaserId);
 
 
 }
