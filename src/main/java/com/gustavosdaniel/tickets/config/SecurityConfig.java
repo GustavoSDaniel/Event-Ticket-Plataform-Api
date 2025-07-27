@@ -26,7 +26,8 @@ public class SecurityConfig {
                         authorizeRequests
                                 .requestMatchers(HttpMethod.GET,"/api/v1/published-events/**").permitAll() //Indica que este endpoint é público, acessível por qualquer pessoa, sem necessidade de login ou permissões específicas.
                                 // ** para náo mostra o id do evento an bara de pesquisa
-
+                                .requestMatchers("/api/v1/events").hasRole("ORGANIZER") // SÓ OS ORGANIZADORES TEM ACESSO A ESSE ENDPOINTER
+                                .requestMatchers(HttpMethod.PUT, "/api/v1/events/**/updateEvent").hasRole("STAFF")   // OS FUNCIONARIOS TEMA CESSO PARA ATUALIZAR OS EVENTOS
                                 .anyRequest().authenticated()) // Todas as requisições exigem autenticação (usado para o organizador)
                 .csrf(csrf -> csrf.disable()) // Desabilita CSRF porque a API é stateless e usa JWT
                 .sessionManagement(sessionManagement ->

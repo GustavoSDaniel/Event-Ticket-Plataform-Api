@@ -65,7 +65,7 @@ public class EventController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping(path = "/{eventId}")
+    @PutMapping(path = "/{eventId}/updateEvent")
     public ResponseEntity<UpdateEventResponseDTO> updateEvent(
             @AuthenticationPrincipal Jwt jwt,
             @PathVariable UUID eventId,
