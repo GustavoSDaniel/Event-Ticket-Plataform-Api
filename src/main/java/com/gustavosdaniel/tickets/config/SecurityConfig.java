@@ -16,8 +16,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http,
-                                                   UserProvisioningFilter userProvisioningFilter)
-            throws Exception {
+                                                   UserProvisioningFilter userProvisioningFilter,
+                                                   JwtAuthenticationConverter jwtAuthenticationConverter
+    ) throws Exception {
 
         http
                 .authorizeHttpRequests(authorizeRequests ->
@@ -31,7 +32,8 @@ public class SecurityConfig {
                 .sessionManagement(sessionManagement ->
                         sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // Define a aplicação como stateless não mantém sessões no servidor
                 .oauth2ResourceServer(oauth2ResourceServer ->
-                        oauth2ResourceServer.jwt(Customizer.withDefaults()
+                        oauth2ResourceServer.jwt( jwtConfigurer ->
+                                jwtConfigurer.jwtAuthenticationConverter(jwtAuthenticationConverter)
                         ))
                 .addFilterAfter(userProvisioningFilter, BearerTokenAuthenticationFilter.class); // Adiciona o UserProvisioningFilter após o filtro padrão de autenticação por token e Garante que o token já foi validado antes do nosso filtro executar
 
