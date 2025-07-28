@@ -1,10 +1,13 @@
 package com.gustavosdaniel.tickets.ticket;
 
 import com.gustavosdaniel.tickets.event.Event;
+import com.gustavosdaniel.tickets.qrcode.QrCodeService;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
@@ -24,6 +27,7 @@ public class TicketController {
 
     private final TicketService ticketService;
     private final TicketMapper ticketMapper;
+    private final QrCodeService qrCodeService;
 
     @GetMapping
     public ResponseEntity<Page<ListTicketResponseDTO>> listTickets(
@@ -50,5 +54,20 @@ public class TicketController {
                 .map(ticketMapper::toGetTicketResponseDTO)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
+    }
+
+    @GetMapping(path = "/{ticketId}/qr-codes")
+    public ResponseEntity<byte[]> getQrCode(
+            @AuthenticationPrincipal Jwt jwt,
+            @PathVariable UUID ticketId
+    ) {
+        byte[] qrCodeImage = qrCodeService.getQrCodeImageForUserAndTicket(parseUserId(jwt), ticketId);
+
+        HttpHeaders headers = new HttpHeaders();
+
+        headers.setContentType(MediaType.IMAGE_JPEG); // Indica ao cliente que o corpo da resposta é uma imagem no formato JPEG
+        headers.setContentLength(qrCodeImage.length); // Define o cabeçalho Content-Length com o tamanho em bytes da imagem
+
+        return ResponseEntity.ok().headers(headers).body(qrCodeImage);
     }
 }

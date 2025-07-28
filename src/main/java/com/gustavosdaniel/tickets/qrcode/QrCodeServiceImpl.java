@@ -7,6 +7,7 @@ import com.google.zxing.common.BitMatrix;
 import com.google.zxing.qrcode.QRCodeWriter;
 import com.gustavosdaniel.tickets.ticket.Ticket;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import javax.imageio.ImageIO;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class QrCodeServiceImpl implements QrCodeService {
 
     private static final int QR_CODE_WIDTH = 300;
@@ -46,6 +48,22 @@ public class QrCodeServiceImpl implements QrCodeService {
             throw new QrCodeGenerationException("Failed to generate QR code", exception);
         }
 
+    }
+
+    @Override
+    public byte[] getQrCodeImageForUserAndTicket(UUID userId, UUID ticketId) {
+
+        QrCode qrCode = qrCodeRepository
+                .findByTicketIdAndTicketPurchaserId(userId, ticketId)
+                .orElseThrow(QrCodeNotFoundException::new);
+
+        try {
+            return Base64.getDecoder().decode(qrCode.getValue());
+        }catch (IllegalArgumentException ex) {
+
+            log.error("Invalid base64 QR code for ticket ID {}", ticketId, ex);
+            throw new QrCodeGenerationException();
+        }
     }
 
     private String generateQrCodeImage(UUID uniqueId) throws WriterException, IOException {
