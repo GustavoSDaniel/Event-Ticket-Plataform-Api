@@ -4,6 +4,7 @@ import com.gustavosdaniel.tickets.event.EventNotFoundException;
 import com.gustavosdaniel.tickets.event.EventUpdateNotFoundException;
 import com.gustavosdaniel.tickets.qrcode.QrCodeGenerationException;
 import com.gustavosdaniel.tickets.qrcode.QrCodeNotFoundException;
+import com.gustavosdaniel.tickets.ticket.TicketsNotFoundException;
 import com.gustavosdaniel.tickets.ticket.TicketsSoldOutFoundException;
 import com.gustavosdaniel.tickets.ticketType.InvalidPriceException;
 import com.gustavosdaniel.tickets.ticketType.TicketTypeNotFoundException;
@@ -24,6 +25,18 @@ import java.util.List;
 @RestControllerAdvice
 @Slf4j
 public class GlobalExceptionHandler {
+
+    @ExceptionHandler(TicketsNotFoundException.class)
+    public ResponseEntity<ErrorDTO> handleTicketsNotFoundException(TicketsNotFoundException e) {
+
+        log.error("Caught TicketsNotFoundException", e);
+
+        ErrorDTO errorDTO = new ErrorDTO();
+
+        errorDTO.setError("Ticket not found");
+
+        return new ResponseEntity<>(errorDTO, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 
     @ExceptionHandler(TicketsSoldOutFoundException.class)
     public ResponseEntity<ErrorDTO> handleTicketsSoldOutFoundException(TicketsSoldOutFoundException e) {
